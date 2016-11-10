@@ -7,9 +7,11 @@ Contact liguangc@cn.ibm.com for any comments or questions
 # Create the persistent volume
 
    ## NFS persistent volume
+
     ### Configure your NFS server
 
         Ubuntu example:
+```
             apt-get install -y nfs-kernel-server
 
             service nfs-kernel-server start
@@ -21,6 +23,7 @@ Contact liguangc@cn.ibm.com for any comments or questions
             Add the line "/k8spv *(rw,no_root_squash,sync,no_subtree_check)" into /etc/exports
 
             exportfs -a
+```
 
     ### Update the pv-nfs.yaml to replace the ip address of the nfs server
 
@@ -65,6 +68,8 @@ Found 1 items
 root@hdfs-namenode-577116430-up5nw:/# 
 ```
 
-6. Then from spark of any other service, you could access the HDFS through the endpoint: 
+# Access the HDFS service
+
+From spark or any other service, you could access the HDFS through the endpoint: 
 
 hdfs://hdfs-namenode:8020
