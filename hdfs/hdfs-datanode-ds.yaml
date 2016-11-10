@@ -1,0 +1,81 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  labels:
+    app:  hdfs
+    daemon: datanode 
+  name: hdfs-datanode 
+spec:
+  template:
+    metadata:
+      name: hdfs-datanode
+      labels:
+        app: hdfs
+        daemon: datanode
+    spec:
+#      hostNetwork: true
+#      dnsPolicy: ClusterFirst
+      volumes:
+        - name: hdfs-datanode
+          hostPath:
+              path: /hadoop/dfs
+      containers:
+        - name: datanode
+          image: uhopper/hadoop-datanode:2.7.2 
+          ports: 
+            - name: datanode
+              containerPort: 50010
+              #hostPort: 50010
+              #containerPort: 31456
+            - name: webui
+              containerPort: 50075
+              #hostPort: 50075
+              #containerPort: 31457
+          env:
+            - name: MULTIHOMED_NETWORK
+              value: "0"
+            - name: CLUSTER_NAME
+              value: hdfs
+            - name: CORE_CONF_fs_defaultFS
+              value: hdfs://hdfs-namenode:8020
+            - name: HDFS_CONF_dfs_client_use_datanode_hostname
+              value: "false"
+            - name: HDFS_CONF_dfs_datanode_use_datanode_hostname
+              value: "false"
+            - name: HDFS_CONF_dfs_namenode_rpc___bind___host
+              value: "0.0.0.0"
+            - name: HDFS_CONF_dfs_namenode_servicerpc___bind___host
+              value: "0.0.0.0"
+            - name: HDFS_CONF_dfs_namenode_http___bind___host
+              value: "0.0.0.0"
+            - name: HDFS_CONF_dfs_namenode_https___bind___host
+              value: "0.0.0.0"
+            #- name: HDFS_CONF_dfs_namenode_datanode_registration_ip___hostname___check
+            #  value: "false"
+            #- name: HDFS_CONF_dfs_datanode_address
+            #  value: "0.0.0.0:31456"
+            #- name: HDFS_CONF_dfs_datanode_http_address
+            #  value: "0.0.0.0:31457"
+#            - name: HDFS_CONF_dfs_datanode_dns_interface
+#              value: "eth0"
+          volumeMounts:
+            - name: hdfs-datanode
+              mountPath: /hadoop/dfs/
+          livenessProbe:
+              tcpSocket:
+                port: 50010
+                #port: 31456
+              initialDelaySeconds: 120
+              timeoutSeconds: 5
+          readinessProbe:
+              tcpSocket:
+                port: 50010
+                #port: 31456
+              timeoutSeconds: 5
+          resources:
+            requests:
+              memory: "4Gi"
+              cpu: "1"
+            limits:
+              memory: "4Gi"
+              cpu: "1"
