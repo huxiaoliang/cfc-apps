@@ -2,8 +2,6 @@ Instructions of running HDFS cluster with persistent storage in CfC
 
 Contact liguangc@cn.ibm.com for any comments or questions
 
-# Download the hdfs yaml files onto your CfC master node
-
 # Create the persistent volume
 
 ## NFS persistent volume
@@ -30,7 +28,9 @@ Ubuntu example:
 
 ### Create the persistent volume
 
+```
 kubectl create -f pv-nfs.yaml
+```
 
 ## TODO - the other persistent volume types
 
@@ -48,11 +48,15 @@ Wait for several minutes, make sure the namenode is up and running
 
 Depends on the use case, you could select to use DaemonSet or Deployment to run the HDFS data nodes containers:
 
+```
 kubectl create -f hdfs-datanode-ds.yaml
+```
 
 or
 
+```
 kubectl create -f hdfs-datanode-dp.yaml
+```
 
 TODO: the datanode containers are using hostPath as the persistent volume, with the deployment, need to use the anti-affinity to make sure there is only one datanode run on each worker node.
 
