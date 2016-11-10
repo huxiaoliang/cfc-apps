@@ -6,11 +6,12 @@ Contact liguangc@cn.ibm.com for any comments or questions
 
 # Create the persistent volume
 
-   ## NFS persistent volume
+## NFS persistent volume
 
-    ### Configure your NFS server
+### Configure your NFS server
 
-        Ubuntu example:
+Ubuntu example:
+
 ```
             apt-get install -y nfs-kernel-server
 
@@ -25,19 +26,21 @@ Contact liguangc@cn.ibm.com for any comments or questions
             exportfs -a
 ```
 
-    ### Update the pv-nfs.yaml to replace the ip address of the nfs server
+### Update the pv-nfs.yaml to replace the ip address of the nfs server
 
-    ### Create the persistent volume
+### Create the persistent volume
 
-            kubectl create -f pv-nfs.yaml
+kubectl create -f pv-nfs.yaml
 
-   ## TODO - the other persistent volume types
+## TODO - the other persistent volume types
 
 # Create the HDFS namenode service and deployment
 
+```
 kubectl create -f hdfs-namenode-svc.yaml
 
 kubectl create -f hdfs-namenode-dp.yaml
+```
 
 Wait for several minutes, make sure the namenode is up and running
 
