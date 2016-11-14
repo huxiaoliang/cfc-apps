@@ -14,7 +14,7 @@ Ubuntu example:
 apt-get install -y nfs-kernel-server
 service nfs-kernel-server start
 mkdir /k8spv
-mkdir /k8spv/cassandra0 /k8spv/cassandra1 /k8spv/cassandra2
+mkdir /k8spv/cassandra1 /k8spv/cassandra2 /k8spv/cassandra3
 Add the line "/k8spv *(rw,no_root_squash,sync,no_subtree_check)" into /etc/exports
 exportfs -a
 ```
