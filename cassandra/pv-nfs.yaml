@@ -1,0 +1,47 @@
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: cassandra-pv1
+    labels:
+      app: cassandra
+  spec:
+    capacity:
+      storage: 1Gi
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Recycle
+    nfs:
+      path: /k8spv/cassandra1
+      server: 10.4.19.2
+---
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: cassandra-pv2
+    labels:
+      app: cassandra
+  spec:
+    capacity:
+      storage: 1Gi
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Recycle
+    nfs:
+      path: /k8spv/cassandra2
+      server: 10.4.19.2
+---
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: cassandra-pv3
+    labels:
+      app: cassandra
+  spec:
+    capacity:
+      storage: 1Gi
+    accessModes:
+      - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Recycle
+    nfs:
+      path: /k8spv/cassandra3
+      server: 10.4.19.2
