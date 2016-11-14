@@ -4,30 +4,34 @@ Contact liguangc@cn.ibm.com for any comments or questions
 
 # Create the persistent volume
 
-   ## NFS persistent volume
+## NFS persistent volume
 
-    ### Configure your NFS server
+### Configure your NFS server
 
-        Ubuntu example:
-
-```
-            apt-get install -y nfs-kernel-server
-            service nfs-kernel-server start
-            mkdir /k8spv
-            mkdir /k8spv/cassandra0 /k8spv/cassandra1 /k8spv/cassandra2
-            Add the line "/k8spv *(rw,no_root_squash,sync,no_subtree_check)" into /etc/exports
-            exportfs -a
-```
-
-    ### Update the pv-nfs.yaml to replace the ip address of the nfs server
-
-    ### Create the persistent volume
+Ubuntu example:
 
 ```
-            kubectl create -f pv-nfs.yaml
+apt-get install -y nfs-kernel-server
+service nfs-kernel-server start
+mkdir /k8spv
+mkdir /k8spv/cassandra0 /k8spv/cassandra1 /k8spv/cassandra2
+Add the line "/k8spv *(rw,no_root_squash,sync,no_subtree_check)" into /etc/exports
+exportfs -a
 ```
 
-   ## TODO - the other persistent volume types
+### Update pv-nfs.yaml 
+
+Replace the ip address of the nfs server
+
+### Create the persistent volume
+
+```
+kubectl create -f pv-nfs.yaml
+```
+
+## TODO 
+
+The other persistent volume types
 
 # Create the Cassandra petset
 
@@ -79,7 +83,9 @@ root@c910f04x19k02:~#
 ```
 
 
-# Then from spark or any other service, you could access the Cassandra through any of the following endpoints
+# Access Cassandra service
+
+From spark or any other service, you could access the Cassandra through any of the following endpoints
 
 ```
  cassandra:9042
