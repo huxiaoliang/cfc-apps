@@ -33,9 +33,10 @@ kubectl create -f pv-nfs.yaml
 
 The other persistent volume types
 
-# Create the Cassandra petset
+# Create the Cassandra service and petset
 
 ```
+kubectl create -f cassandra-service.yaml
 kubectl create -f cassandra-petset.yaml
 ```
 
