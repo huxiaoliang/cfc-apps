@@ -48,7 +48,11 @@ will get something like:
 zoo-0 Mode: follower
 zoo-1 Mode: follower
 zoo-2 Mode: leader
+```
 
+Run the following commands to verify the key-value pair could be created successfully:
+
+```
 kubectl exec zoo-0 -- zkCli.sh create /foo bar
 kubectl exec zoo-0 -- zkCli.sh get /foo
 kubectl exec zoo-1 -- zkCli.sh get /foo
