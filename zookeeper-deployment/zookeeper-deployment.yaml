@@ -1,0 +1,143 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper-controller-0
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zookeeper-0
+    spec:
+      volumes:
+        - name: zookeeper-0
+          persistentVolumeClaim:
+            claimName: zookeeper-0
+      containers:
+      - name: zoo-0
+        image: mesoscloud/zookeeper:3.4.8
+        ports:
+        ports:
+        - containerPort: 2181
+          name: client
+        - containerPort: 2888
+          name: peer
+        - containerPort: 3888
+          name: leader-election
+        env:
+        - name: MYID
+          value: "1"
+        - name: SERVERS
+          value: 0.0.0.0,zoo-1,zoo-2
+        volumeMounts:
+        - name: zookeeper-0
+          mountPath: /tmp/zookeeper
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper-controller-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zookeeper-1
+    spec:
+      volumes:
+        - name: zookeeper-1
+          persistentVolumeClaim:
+            claimName: zookeeper-1
+      containers:
+      - name: zoo-1
+        image: mesoscloud/zookeeper:3.4.8
+        ports:
+        ports:
+        - containerPort: 2181
+          name: client
+        - containerPort: 2888
+          name: peer
+        - containerPort: 3888
+          name: leader-election
+        env:
+        - name: MYID
+          value: "2"
+        - name: SERVERS
+          value: zoo-0,0.0.0.0,zoo-2
+        volumeMounts:
+        - name: zookeeper-1
+          mountPath: /tmp/zookeeper
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper-controller-2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zookeeper-2
+    spec:
+      volumes:
+        - name: zookeeper-2
+          persistentVolumeClaim:
+            claimName: zookeeper-2
+      containers:
+      - name: zoo-2
+        image: mesoscloud/zookeeper:3.4.8
+        ports:
+        ports:
+        - containerPort: 2181
+          name: client
+        - containerPort: 2888
+          name: peer
+        - containerPort: 3888
+          name: leader-election
+        env:
+        - name: MYID
+          value: "3"
+        - name: SERVERS
+          value: zoo-0,zoo-1,0.0.0.0
+        volumeMounts:
+        - name: zookeeper-2
+          mountPath: /tmp/zookeeper
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: zookeeper-0
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      app: "zookeeper-0"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: zookeeper-1
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      app: "zookeeper-1"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: zookeeper-2
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      app: "zookeeper-2"
